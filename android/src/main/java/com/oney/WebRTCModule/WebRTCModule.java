@@ -932,9 +932,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                 sdpMid = "";
                 sdpMLineIndex = 0;
             }
+
             IceCandidate candidate = new IceCandidate(
-                    candidateMap.getString("sdpMid"),
-                    candidateMap.getInt("sdpMLineIndex"),
                     sdpMid,
                     sdpMLineIndex,
                     candidateMap.getString("candidate")
