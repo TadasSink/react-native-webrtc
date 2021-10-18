@@ -17,7 +17,8 @@ ANDROID_CPU_ABI_MAP = {
     'x64'   : 'x86_64'
 }
 ANDROID_BUILD_CPUS = ['arm', 'arm64', 'x86', 'x64']
-IOS_BUILD_ARCHS = ['arm64', 'arm','x64','x86']
+# IOS_BUILD_ARCHS = ['arm64', 'arm','x64','x86']
+IOS_BUILD_ARCHS = ['arm64', 'arm']
 
 def build_gn_args(platform_args):
     return "--args='" + ' '.join(GN_COMMON_ARGS + platform_args) + "'"
@@ -129,6 +130,7 @@ def build(target_dir, platform, debug, bitcode):
     os.chdir(webrtc_dir)
 
     # Run glient
+    # sh('gclient sync -f -D -R', env)
     sh('gclient sync', env)
 
     # Cleanup old build
