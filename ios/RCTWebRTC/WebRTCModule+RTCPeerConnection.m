@@ -6,6 +6,7 @@
 //
 
 #import <objc/runtime.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
@@ -20,6 +21,9 @@
 #import <WebRTC/RTCLegacyStatsReport.h>
 #import <WebRTC/RTCSessionDescription.h>
 #import <WebRTC/RTCRtpTransceiver.h>
+
+#import <WebRTC/RTCAudioSession.h>
+#import <WebRTC/RTCAudioSessionConfiguration.h>
 
 #import "WebRTCModule.h"
 #import "WebRTCModule+RTCDataChannel.h"
@@ -102,6 +106,22 @@ RCT_EXPORT_METHOD(peerConnectionInit:(RTCConfiguration*)configuration
   peerConnection.videoTrackAdapters = [NSMutableDictionary new];
   peerConnection.webRTCModule = self;
   self.peerConnections[objectID] = peerConnection;
+
+    RTCAudioSessionConfiguration *webRTCConfig = [RTCAudioSessionConfiguration webRTCConfiguration];
+    webRTCConfig.category = AVAudioSessionCategoryPlayback;
+    webRTCConfig.categoryOptions = 0;
+    webRTCConfig.mode = AVAudioSessionModeSpokenAudio;
+    [RTCAudioSessionConfiguration setWebRTCConfiguration:webRTCConfig];
+  
+    RTCAudioSession *audioSession = [RTCAudioSession sharedInstance];
+
+    /*
+    NSError * error = nil;
+    [audioSession lockForConfiguration];
+    [audioSession setConfiguration:webRTCConfig active:TRUE error: &error];
+    NSLog(@"AUDIO ERROR: %@", error);
+    [audioSession unlockForConfiguration];
+     */
 }
 
 RCT_EXPORT_METHOD(peerConnectionSetConfiguration:(RTCConfiguration*)configuration objectID:(nonnull NSNumber *)objectID)
